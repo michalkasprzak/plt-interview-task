@@ -4,7 +4,7 @@
   "description": "Calculate current stock for the given SKU",
   "main": "dist/index.js",
   "scripts": {
-    "build": "npx del-cli dist/ && npm run test && tsc",
+    "build": "del-cli dist/ && npm run test && tsc",
     "test": "jest"
   },
   "repository": {
