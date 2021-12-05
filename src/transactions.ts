@@ -1,11 +1,12 @@
 import { normalize } from 'path';
 
+import appConfig from './config';
 import { loadJSONArray } from './utils';
 
 interface Transaction {
-  sku: string,
-  type: TransactionType,
-  qty: number
+  sku: string;
+  type: TransactionType;
+  qty: number;
 }
 
 enum TransactionType {
@@ -14,8 +15,8 @@ enum TransactionType {
 }
 
 interface TransactionsSummary {
-  actions: number,
-  qty: number
+  actions: number;
+  qty: number;
 }
 
 /**
@@ -29,12 +30,10 @@ export async function getSummaryByItem(sku: string): Promise<TransactionsSummary
   }
 
   try {
-    const transactionsFile = normalize(__dirname + '/../') + 'resources/transactions.json';
+    const transactions = await loadJSONArray<Transaction>(appConfig.transactionsSource);
 
-    let transactions = await loadJSONArray<Transaction>(transactionsFile);
-
-    let actions = 0;
-    let qty = 0;
+    let actions = 0; // Represents the total number of transactions the particular SKU was part of
+    let qty = 0; // Final count of items sold
 
     for (let transaction of transactions) {
       if (transaction.sku === sku) {
@@ -52,6 +51,6 @@ export async function getSummaryByItem(sku: string): Promise<TransactionsSummary
 
     return {actions, qty};
   } catch (err) {
-    throw new Error('transactions.json file is either missing or corrupted');
+    throw new Error('Transactions JSON file is either missing or corrupted');
   }
 }

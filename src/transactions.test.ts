@@ -1,15 +1,17 @@
 import { rename } from 'fs/promises';
 import { normalize } from 'path';
 
+import appConfig from './config';
 import * as transactions from './transactions';
 
 describe('getSummaryByItem', () => {
   it('should fail if the transactions.json file isn\'t available', async () => {
-    const transactionsFile = normalize(__dirname + '/../') + 'resources/transactions.json';
-
-    await rename(transactionsFile, transactionsFile + '.tmp');
-    await expect(transactions.getSummaryByItem('test')).rejects.toThrow('transactions.json');
-    await rename(transactionsFile + '.tmp', transactionsFile);
+    try {
+      await rename(appConfig.transactionsSource, appConfig.transactionsSource + '.tmp');
+      await expect(transactions.getSummaryByItem('test')).rejects.toThrow('Transactions JSON');
+    } finally {
+      await rename(appConfig.transactionsSource + '.tmp', appConfig.transactionsSource);
+    }
   });
 
   it('should fail for an empty SKU', async () => {
@@ -18,7 +20,7 @@ describe('getSummaryByItem', () => {
 
   it('should return non-zero values for a known SKU', async () => {
 
-    const result = await transactions.getSummaryByItem('KED089097/68/09');
+    const result = await transactions.getSummaryByItem('test/1');
 
     expect(result.actions).not.toEqual(0);
     expect(result.qty).not.toEqual(0);
