@@ -1,0 +1,22 @@
+[
+  {
+    "sku": "test/1",
+    "type": "order",
+    "qty": 3
+  },
+  {
+    "sku": "test/2",
+    "type": "order",
+    "qty": 5
+  },
+  {
+    "sku": "test/1",
+    "type": "refund",
+    "qty": 1
+  },
+  {
+    "sku": "test/3",
+    "type": "refund",
+    "qty": 12
+  }
+]
