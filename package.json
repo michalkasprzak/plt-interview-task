@@ -2,8 +2,9 @@
   "name": "plt-interview-task",
   "version": "1.0.0",
   "description": "Calculate current stock for the given SKU",
-  "main": "dist/index.js",
+  "main": "dist/app.js",
   "scripts": {
+    "start": "node dist/app.js",
     "build": "del-cli dist/ && npm run test && tsc",
     "test": "jest"
   },
